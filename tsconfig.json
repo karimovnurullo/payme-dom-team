@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"target": "ES6",
+		"lib": ["ESNext", "ESNext.Array", "DOM"] /* Specify a set of bundled library declaration files that describe the target runtime environment. */,
+		"module": "ES6" /* Specify what module code is generated. */,
+		"outDir": "./dist" /* Specify an output folder for all emitted files. */,
+		"strictPropertyInitialization": false,
+		"esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
+		"forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
+		"strict": true /* Enable all strict type-checking options. */,
+		"noImplicitAny": false /* Enable error reporting for expressions and declarations with an implied 'any' type. */,
+		"watch": true,
+		"noImplicitThis": false /* Enable error reporting when 'this' is given the type 'any'. */,
+		"alwaysStrict": true /* Ensure 'use strict' is always emitted. */,
+		"skipLibCheck": true /* Skip type checking all .d.ts files. */,
+		"emitDecoratorMetadata": false
+	}
+}
