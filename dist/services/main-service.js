@@ -1,5 +1,6 @@
-import { CardRepository } from "../repository/card/card-repository";
-import { UserRepository } from "../repository/user/user-repository";
+import { CardRepository } from "../repository/card/card-repository.js";
+import { UserRepository } from "../repository/user/user-repository.js";
+import { alertFunction } from "../alert.js";
 export class MainService {
     constructor() {
         this.cardRepository = new CardRepository();
@@ -11,8 +12,10 @@ export class MainService {
     }
     login(phoneNumber, password) {
         const currentUser = this.userRepository.getByNumber(phoneNumber);
-        if (currentUser.password !== password)
+        if (currentUser.password !== password) {
+            alertFunction("Passwords don't match", false);
             throw new Error("Passwords don't match");
+        }
         return currentUser;
     }
     registerCard(...cards) {
@@ -53,11 +56,13 @@ export class MainService {
                 break;
         }
         if (!fromCardExists || !toCardExists) {
-            throw new Error('One or both cards do not exist');
+            alertFunction('One or both cards do not exist', false);
+            // throw new Error('One or both cards do not exist');
         }
         const fromCardBalance = this.cardRepository.getList()[fromCardIndex].getBalance();
         if (fromCardBalance < money) {
-            throw new Error(`You have not enough money`);
+            alertFunction(`You have not enough money`, false);
+            // throw new Error(`You have not enough money`);
         }
         this.cardRepository.getList()[fromCardIndex].updatedBalance(-money);
         this.cardRepository.getList()[toCardIndex].updatedBalance(money);

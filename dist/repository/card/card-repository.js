@@ -1,3 +1,4 @@
+import { alertFunction } from "../../alert.js";
 export class CardRepository {
     constructor() {
         this.list = [];
@@ -13,7 +14,7 @@ export class CardRepository {
     create(...cards) {
         for (const card of cards) {
             if (this.isExist(card.number))
-                throw new Error(`Card(${card.number}) is already exist`);
+                alertFunction(`Card(${card.number}) is already exist`, false);
             card.setId(++this.counter);
             this.list.push(card);
         }
@@ -23,6 +24,7 @@ export class CardRepository {
             if (card.getId() === cardID)
                 return card;
         }
+        alertFunction(`Card ${cardID} not found`, false);
         throw new Error(`Card ${cardID} not found`);
     }
     getList() {

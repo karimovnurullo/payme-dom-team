@@ -1,14 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="main.css" />
-		<title>Payme DOM</title>
-	</head>
-	<body>
-		
-	</body>
-	<script type="module" src="../dist/index.js"></script>
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Payme</title>
+   <link rel="stylesheet" href="./main.css">
+   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+</head>
+
+<body>
+   <div class="container">
+      <div class="alert-element"></div>
+      <div class="enter-page">
+         <form class="login-form form">
+            <div class="mode"><i class="uil uil-moon mode-icon"></i></div>
+            <h2 class="form-title">Sign in</h2>
+            <input type="text" class="login-number" placeholder="Phone number" autofocus>
+            <input type="password" class="login-password" placeholder="Password">
+            <button class="btn">Login</button>
+            <p class="login-text form-text">Not registered? <span class="form-text-bold create-btn">Sign up</span></p>
+         </form>
+         <form class="sign-form form">
+            <div class="mode"><i class="uil uil-moon mode-icon"></i></div>
+            <h2 class="form-title">Sign up</h2>
+            <input type="text" class="sign-firsname" placeholder="First name" autofocus>
+            <input type="text" class="sign-lastname" placeholder="Last name">
+            <input type="text" class="sign-number" placeholder="Phone number">
+            <input type="password" class="sign-password" placeholder="Create password">
+            <button class="sign-btn btn">Sign up</button>
+            <p class="sign-text form-text">Already registered?<span class="form-text-bold login-btn">Sign in</span></p>
+         </form>
+      </div>
+      <div class="cabinet">
+         <h1>Welcome your cabinet</h1>
+         <button class="logout-btn">Logout</button>
+         <div class="user-firstname"></div>
+         <div class="user-lastname"></div>
+      </div>
+   </div>
+   
+   <script type="module" src="../dist/index.js"></script>
+</body>
+
 </html>
