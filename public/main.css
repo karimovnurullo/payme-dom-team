@@ -25,6 +25,7 @@ body{
 .container{
    width: 100%;
    height: 100vh;
+   /* overflow: auto; */
    color: #fff;
    background-color: #fff;
    transition: all 0.2s;
@@ -106,7 +107,6 @@ body{
    background-color: #fff;
    outline: none;
    border-radius: 5px;
-   color: var(--text-color);
    color: #000;
    border: 0;
    border: 1px solid #8181817c;
@@ -173,13 +173,14 @@ body{
 
 
 .cabinet{
+   padding: 50px;
    width: 100%;
    height: 100vh;
-   background-color: red;
+   overflow: auto;
+   background-color: goldenrod;
    display: flex;
-   justify-content: center;
    gap: 30px;
-   align-items: center;
+   /* align-items: center; */
    flex-direction: column;
 }
 .cabinet.hide{
@@ -200,4 +201,27 @@ body{
    display: flex;
    gap: 30px;
    font-size: 22px;
+}
+select{
+   width: 100%;
+   border-radius: 10px;
+   height: 40px;
+   outline: none;
+   cursor: pointer;
+   color: #777;
+   border: 1px solid #8181817c;
+   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+select option{
+   outline: none;
+   border-radius: 5px;
+   color: #999;
+   font-size: 18px;
+   border: 0;
+   transition: all 0.3s;
+}
+.dark select{
+   background-color: #333;
+   color: #777;
+   box-shadow: rgba(0, 0, 0, 0.403) 0px 3px 8px;
 }

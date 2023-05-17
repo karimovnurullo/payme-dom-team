@@ -34,30 +34,49 @@
          </form>
       </div>
       <div class="cabinet hide">
-         <h1>Welcome your cabinet</h1>
-         <button class="logout-btn">Logout</button>
-         <div class="user-information">
-            <div class="item">
-               <span>User name</span>
-               <span class="user-firstname"></span>
-            </div>
-            <div class="item">
-               <span>User surname</span>
-               <span class="user-lastname"></span>
-            </div>
-            <div class="item">
-               <span>User number</span>
-               <span class="user-number"></span>
-            </div>
-            <div class="item">
-               <span>User password</span>
-               <span class="user-password"></span>
-            </div>
-            <div class="item">
-               <span>User card</span>
-               <span class="user-card"></span>
+         <div>
+            <h1>Welcome your cabinet</h1>
+            <button class="logout-btn">Logout</button>
+
+            <div class="user-information">
+               <div class="item">
+                  <span>User name</span>
+                  <span class="user-firstname"></span>
+               </div>
+               <div class="item">
+                  <span>User surname</span>
+                  <span class="user-lastname"></span>
+               </div>
+               <div class="item">
+                  <span>User number</span>
+                  <span class="user-number"></span>
+               </div>
+               <div class="item">
+                  <span>User password</span>
+                  <span class="user-password"></span>
+               </div>
+               <div class="item">
+                  <span>User card</span>
+                  <span class="user-card"></span>
+               </div>
             </div>
          </div>
+
+         <form class="card-form form">
+            <div class="mode"><i class="uil uil-moon mode-icon"></i></div>
+            <h2 class="form-title">Add card</h2>
+            <input type="text" class="card-number" placeholder="0000 0000 0000 0000" autofocus>
+            <input type="text" class="card-date" placeholder="00/00">
+            <input type="number" class="card-balance" placeholder="Enter balance">
+            <!-- <input type="text" class="card-bankname" placeholder="Bank name"> -->
+            <select class="card-bankname">
+               <option>Bank Name</option>
+            </select>
+            <select class="card-type">
+               <option>Card type</option>
+            </select>
+            <button class="card-add-btn btn">Add</button>
+         </form>
 
       </div>
    </div>

@@ -2,7 +2,8 @@ import { Card } from "./entities/card/card.js";
 import { User } from "./entities/user/user.js";
 import { MainService } from "./services/main-service.js";
 import { alertFunction } from "./alert.js";
-
+import { BANK_TYPE, CARDTYPE, CARD_TYPE } from "./entities/type/type.js";
+// import { CARD_TYPE } from "./entities/type/type";
 // function init() {
 const container = document.querySelector<HTMLDivElement>('.container')!;
 const loginPage = document.querySelector<HTMLDivElement>('.login-page')!;
@@ -28,6 +29,16 @@ const registerLastname = document.querySelector<HTMLInputElement>('.sign-lastnam
 const registerNumber = document.querySelector<HTMLInputElement>('.sign-number')!;
 const registerPassword = document.querySelector<HTMLInputElement>('.sign-password')!;
 
+// ============================== Card Form Start =============================
+
+const cardForm = document.querySelector<HTMLFormElement>('.card-form')!;
+const cardNumber = document.querySelector<HTMLInputElement>('.card-number')!;
+const cardExpiry = document.querySelector<HTMLInputElement>('.card-date')!;
+const cardBalance = document.querySelector<HTMLInputElement>('.card-balance')!;
+const cardBankName = document.querySelector<HTMLSelectElement>('.card-bankname')!;
+const cardType = document.querySelector<HTMLSelectElement>('.card-type')!;
+
+// ============================== Card Form End =============================
 (function darkMode() {
    if (localStorage.getItem('mode') === 'dark') {
       container.classList.add('dark');
@@ -70,6 +81,102 @@ function isCabinate(active: boolean) {
    localStorage.setItem("cabinate", JSON.stringify(active))
    switchPage(JSON.parse(localStorage.getItem("cabinate")!));
 }
+
+
+for (let i = 0; i < BANK_TYPE.length; i++) {
+   const option = document.createElement("option");
+   option.value = BANK_TYPE[i];
+   option.text = BANK_TYPE[i];
+   cardBankName.appendChild(option);
+}
+
+for (let i = 0; i < CARDTYPE.length; i++) {
+   const option = document.createElement("option");
+   option.value = CARDTYPE[i];
+   option.text = CARDTYPE[i];
+   cardType.appendChild(option);
+}
+
+function createPlaceholder(el: any, text1: string, text2: string) {
+   el.setAttribute("placeholder", text1);
+   setTimeout(() => {
+      el.setAttribute("placeholder", text2)
+   }, 1600);
+   el.value = "";
+}
+
+cardForm.addEventListener('submit', (e) => {
+   e.preventDefault();
+   const { value: numberValue } = cardNumber;
+   const { value: expiryValue } = cardExpiry;
+   const { value: balanceValue } = cardBalance;
+
+   const numberValueAsInt = parseInt(numberValue);
+   const expiryValueAsInt = parseInt(expiryValue);
+   if (isNaN(numberValueAsInt)) {
+      createPlaceholder(cardNumber, "Enter your card number", "0000 0000 0000 0000");
+   } else if (isNaN(expiryValueAsInt)) {
+      createPlaceholder(cardExpiry, "Enter number", "00/00");
+   }
+
+   let getCurrentUser = JSON.parse(localStorage.getItem("currentUser")!);
+   let cardTypeValue = cardType.value as CARD_TYPE;
+   if (!numberValue || !expiryValue || !balanceValue || (cardBankName && cardBankName.selectedIndex == 0) || (cardType && cardType.selectedIndex == 0)) {
+      alertFunction("Please enter all information", false);
+   } else {
+      console.log("currentUser", getCurrentUser);
+
+      mainService.registerCard(new Card(numberValue, expiryValue, cardTypeValue, parseInt(balanceValue), 2, cardBankName.value));
+      console.log(mainService.getCardList());
+      cabinate();
+      console.log("Card number: " + numberValue);
+      console.log("Expiry number: " + expiryValue);
+      console.log("Bank name " + cardBankName.value);
+      console.log("Card type " + cardType.value);
+      cardNumber.value = "";
+      cardExpiry.value = "";
+      cardBalance.value = "";
+      cardBankName.selectedIndex = 1;
+      cardType.selectedIndex = 1;
+   }
+});
+
+
+
+cardExpiry.addEventListener('input', (event: any) => {
+   let value = event.target.value;
+   if (value.endsWith('/')) {
+      value = value.slice(0, -1);
+   }
+   if (value.length === 2) {
+      value += '/';
+   } else if (value.length > 5) {
+      value = value.slice(0, 5);
+   }
+   event.target.value = value;
+});
+cardNumber.addEventListener('input', (event: any) => {
+   let value = event.target.value;
+   if (value.endsWith(' ')) {
+      value = value.slice(0, -1);
+   }
+   if (value.length === 4) {
+      value += ' ';
+   }
+   else if (value.length === 9) {
+      value += ' ';
+   }
+   else if (value.length === 14) {
+      value += ' ';
+   }
+   else if (value.length > 19) {
+      value = value.slice(0, 19);
+   }
+   if (value.startsWith('86')) cardType.value = 'UZCARD';
+   else if (value.startsWith('98')) cardType.value = 'HUMO';
+   else cardType.value = 'VISA';
+   event.target.value = value;
+});
 
 
 
@@ -145,7 +252,8 @@ function cabinate() {
       userLastname.textContent = getCurrentUser.lastName;
       userNumber.textContent = getCurrentUser.phoneNumber;
       userPassword.textContent = getCurrentUser.password;
-      userCard.textContent = mainService.getCardByUserId(getCurrentUser.getId()).join(", ");
+      let card = mainService.getCardByUserId(getCurrentUser.getId()!);
+      userCard.textContent = card.number;
       console.log("Users list: ", JSON.parse(localStorage.getItem("users")!));
    } catch (error: any) {
       console.log(error.message);
