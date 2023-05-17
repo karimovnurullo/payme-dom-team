@@ -83,7 +83,10 @@ export class MainService {
         return false;
     }
     getUserId(userId) {
-        return this.cardRepository.getByID(userId);
+        return this.userRepository.getById(userId);
+    }
+    getUserByNumber(userNumber) {
+        return this.userRepository.getByNumber(userNumber);
     }
     getTransactionHistory() {
         return this.history;

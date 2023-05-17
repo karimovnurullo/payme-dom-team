@@ -1,8 +1,8 @@
-import { Card } from "../entities/card/card";
-import { User } from "../entities/user/user";
-import { CardRepository } from "../repository/card/card-repository";
-import { UserRepository } from "../repository/user/user-repository";
-import { alertFunction } from "../alert";
+import { Card } from "../entities/card/card.js";
+import { User } from "../entities/user/user.js";
+import { CardRepository } from "../repository/card/card-repository.js";
+import { UserRepository } from "../repository/user/user-repository.js";
+import { alertFunction } from "../alert.js";
 
 export class MainService {
    private cardRepository = new CardRepository();
@@ -13,12 +13,11 @@ export class MainService {
       this.userRepository.create(...users);
    }
 
-   login(phoneNumber: string, password: string) {
+   login(phoneNumber: number, password: string) {
       const currentUser = this.userRepository.getByNumber(phoneNumber);
       if (currentUser.password !== password) {
          alertFunction("Passwords don't match", false);
          throw new Error("Passwords don't match");
-         
       }
       return currentUser;
    }
@@ -96,7 +95,10 @@ export class MainService {
    }
 
    getUserId(userId: number) {
-      return this.cardRepository.getByID(userId);
+      return this.userRepository.getById(userId);
+   }
+   getUserByNumber(userNumber: number){
+      return this.userRepository.getByNumber(userNumber);
    }
 
    getTransactionHistory() {

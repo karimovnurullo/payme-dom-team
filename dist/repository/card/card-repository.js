@@ -1,7 +1,7 @@
 import { alertFunction } from "../../alert.js";
 export class CardRepository {
     constructor() {
-        this.list = [];
+        this.list = JSON.parse(localStorage.getItem("cards") || "[]");
         this.counter = 0;
     }
     isExist(cardNumber) {
@@ -13,10 +13,13 @@ export class CardRepository {
     }
     create(...cards) {
         for (const card of cards) {
-            if (this.isExist(card.number))
+            if (this.isExist(card.number)) {
                 alertFunction(`Card(${card.number}) is already exist`, false);
+                throw new Error(`Card(${card.number}) is already exist`);
+            }
             card.setId(++this.counter);
             this.list.push(card);
+            localStorage.setItem("cards", JSON.stringify(this.list));
         }
     }
     getByID(cardID) {

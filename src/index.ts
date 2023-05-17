@@ -1,41 +1,32 @@
-import { Card } from "./entities/card/card";
-import { User } from "./entities/user/user";
-import { MainService } from "./services/main-service";
+import { Card } from "./entities/card/card.js";
+import { User } from "./entities/user/user.js";
+import { MainService } from "./services/main-service.js";
+import { alertFunction } from "./alert.js";
 
 // function init() {
-const container = document.querySelector('.container') as HTMLDivElement;
-const enterPage = document.querySelector('.enter-page') as HTMLDivElement;
-const cabinetPage = document.querySelector('.cabinet') as HTMLDivElement;
-const loginBtn = document.querySelector('.login-btn') as HTMLDivElement;
-const createBtn = document.querySelector('.create-btn') as HTMLDivElement;
-const userFirstname = document.querySelector('.user-firstname') as HTMLDivElement;
-const userLastname = document.querySelector('.user-lastname') as HTMLDivElement;
-const modes = document.querySelectorAll('.mode');
-const modeIcon = document.querySelectorAll('.mode-icon');
-const logoutBtn = document.querySelector('.logout-btn');
-
+const container = document.querySelector<HTMLDivElement>('.container')!;
+const loginPage = document.querySelector<HTMLDivElement>('.login-page')!;
+const cabinetPage = document.querySelector<HTMLDivElement>('.cabinet')!;
+const switchLoginFormBtn = document.querySelector<HTMLDivElement>('.login-btn')!;
+const switchRegisterFormBtn = document.querySelector<HTMLDivElement>('.create-btn')!;
+const userFirstname = document.querySelector<HTMLDivElement>('.user-firstname')!;
+const userLastname = document.querySelector<HTMLDivElement>('.user-lastname')!;
+const userNumber = document.querySelector<HTMLDivElement>('.user-number')!;
+const userPassword = document.querySelector<HTMLDivElement>('.user-password')!;
+const userCard = document.querySelector<HTMLDivElement>('.user-card')!;
+const modes = document.querySelectorAll('.mode')!;
+const modeIcon = document.querySelectorAll('.mode-icon')!;
+const logoutBtn = document.querySelector('.logout-btn')!;
 const forms = document.querySelectorAll('.form') as NodeListOf<HTMLFormElement>;
 const inputs = document.querySelectorAll('.form input[type="text"], .form input[type="password"]') as NodeListOf<HTMLInputElement>;
-let currentIndex = 0;
-
-let currentPage: string = "false";
-let currenetUser: User;
-
-
-// loginForm elements
-const loginForm = document.querySelector('.login-form') as HTMLFormElement;
-const loginNumber = document.querySelector('.login-number') as HTMLInputElement;
-const loginPassword = document.querySelector('.login-password') as HTMLInputElement;
-// loginForm elements
-
-
-// loginForm elements
-const signForm = document.querySelector('.sign-form') as HTMLFormElement;
-const signFirsname = document.querySelector('.sign-firsname') as HTMLInputElement;
-const signLastname = document.querySelector('.sign-lastname') as HTMLInputElement;
-const signNumber = document.querySelector('.sign-number') as HTMLInputElement;
-const signPassword = document.querySelector('.sign-password') as HTMLInputElement;
-// loginForm elements
+const loginForm = document.querySelector<HTMLFormElement>('.login-form')!;
+const loginNumber = document.querySelector<HTMLInputElement>('.login-number')!;
+const loginPassword = document.querySelector<HTMLInputElement>('.login-password')!;
+const registerForm = document.querySelector<HTMLFormElement>('.sign-form')!;
+const registerFirsname = document.querySelector<HTMLInputElement>('.sign-firsname')!;
+const registerLastname = document.querySelector<HTMLInputElement>('.sign-lastname')!;
+const registerNumber = document.querySelector<HTMLInputElement>('.sign-number')!;
+const registerPassword = document.querySelector<HTMLInputElement>('.sign-password')!;
 
 (function darkMode() {
    if (localStorage.getItem('mode') === 'dark') {
@@ -58,106 +49,115 @@ const signPassword = document.querySelector('.sign-password') as HTMLInputElemen
    });
 }());
 
+function switchForm(hide: any, show: any) {
+   hide.classList.add('hide');
+   show.classList.remove('hide');
+}
+function switchPage(active: boolean) {
+   localStorage.setItem("cabinate", JSON.stringify(active));
+   let getCabinate = JSON.parse(localStorage.getItem("cabinate")!);
+   if (getCabinate) {
+      loginPage.classList.add("hide");
+      cabinetPage.classList.remove("hide");
+   }
+   else {
+      cabinetPage.classList.add("hide");
+      loginPage.classList.remove("hide");
+   }
+}
+
+function isCabinate(active: boolean) {
+   localStorage.setItem("cabinate", JSON.stringify(active))
+   switchPage(JSON.parse(localStorage.getItem("cabinate")!));
+}
 
 
-loginBtn.addEventListener('click', () => {
-   signForm.style.display = "none";
-   loginForm.style.display = "flex";
-   console.log("Clicked on login");
-   
-});
-createBtn.addEventListener('click', () => {
-   loginForm.style.display = "none";
-   signForm.style.display = "flex";
-});
 
-try {
+switchRegisterFormBtn.addEventListener('click', () => switchForm(loginForm, registerForm));
+switchLoginFormBtn.addEventListener('click', () => switchForm(registerForm, loginForm));
+
+logoutBtn.addEventListener('click', () => {
+   localStorage.setItem("cabinate", JSON.stringify(false));
+   switchPage(JSON.parse(localStorage.getItem("cabinate")!));
+   localStorage.setItem("currentUser", "");
+})
+
 const mainService = new MainService();
 
-const user1 = new User("Nurullo", "Karimov", "+998905640618", "root123");
-const user2 = new User("Amirxon", "Abralov", "+99890444222", "12221ss");
+// const user1 = new User("Nurullo", "Karimov", "+998905640618", "root123");
+// const user2 = new User("Amirxon", "Abralov", "+99890444222", "12221ss");
 
-mainService.register(user1, user2);
+// mainService.register(user1, user2);
 
-const card1 = new Card("8600000100020003", "12/25", "HUMO", 10000, user1.getId(), "TBC Bank");
-const card2 = new Card("8600000100020004", "12/25", "HUMO", 20000, user2.getId(), "NBU Bank");
-const card3 = new Card("8600000100020005", "12/25", "HUMO", 10000, user1.getId(), "TBC Bank");
-function cabinateFunction(currentPage: any) {
-   if (currentPage === "true") {
-     cabinetPage.style.display = 'flex';
-     enterPage.style.display = 'none';
-    
+// const card1 = new Card("8600000100020003", "12/25", "HUMO", 10000, user1.getId(), "TBC Bank");
+// const card2 = new Card("8600000100020004", "12/25", "HUMO", 20000, user1.getId(), "NBU Bank");
+// const card3 = new Card("8600000100020005", "12/25", "HUMO", 10000, user1.getId(), "TBC Bank");
+
+// mainService.registerCard(card1, card2, card3);
+registerForm.addEventListener('submit', (e) => {
+   e.preventDefault();
+   const firstNameValue = registerFirsname.value.trim();
+   const lastNameValue = registerLastname.value.trim();
+   const numberValue = registerNumber.value.trim();
+   const passwordValue = registerPassword.value.trim();
+
+
+   if (!firstNameValue || !lastNameValue || !numberValue || !passwordValue) {
+      alertFunction("Please enter all information", false);
    } else {
-     enterPage.style.display = 'flex';
-     cabinetPage.style.display = 'none';
-   }
- }
-
-
-const signBtn = document.querySelector('.sign-btn')! as HTMLButtonElement;
-   
-   
-   signBtn.addEventListener('click', (e: Event) => {
-      e.preventDefault();
-      let newUser = new User(signFirsname.value, signLastname.value, signNumber.value, signPassword.value);
-      mainService.register(newUser);
-      currenetUser = mainService.login(signNumber.value.toString(), signPassword.value.toString());
-      console.log("Added new user");
-      localStorage.setItem("currentUser", JSON.stringify(currenetUser));
-      let getCurrentUser = JSON.parse(localStorage.getItem("currentUser") || "");
-      console.log(getCurrentUser);
-      currentPage = "true";
-      localStorage.setItem('currentPage', currentPage);
-      let getCurrentPage = localStorage.getItem('currentPage');
-      cabinateFunction(getCurrentPage);
-   });
-   
-   
-   loginForm.addEventListener('submit', (e: Event) => {
-      e.preventDefault();
-      const successLogin = mainService.login(loginNumber.value, loginPassword.value);
-      console.log("Succes", successLogin);
-   
-      if (successLogin) {
-         enterPage.style.display = 'none';
-         cabinetPage.style.display = 'flex';
-         currentPage = "true";
-         localStorage.setItem('currentPage', currentPage);
-         localStorage.setItem("currenetUser", JSON.stringify(successLogin));
+      mainService.register(new User(firstNameValue, lastNameValue, parseInt(numberValue), passwordValue));
+      let currentUser = mainService.getUserByNumber(parseInt(numberValue));
+      if (currentUser) {
+         isCabinate(true);
+         alertFunction("You have registered", true);
+         // let usersArray: User[] = JSON.parse(localStorage.getItem("users") || "[]");
+         // usersArray.push(currentUser);
+         // localStorage.setItem("users", JSON.stringify(usersArray));
+         localStorage.setItem("currentUser", JSON.stringify(currentUser));
+         cabinate();
+         registerFirsname.value = '';
+         registerLastname.value = '';
+         registerNumber.value = '';
+         registerPassword.value = '';
       }
-   });
-   logoutBtn?.addEventListener("click", () => {
-      currentPage = "false";
-      localStorage.setItem("currentPage", currentPage.toString());
-      let getCurrentPage = localStorage.getItem('currentPage');
-      cabinateFunction(getCurrentPage);
-  });
-   window.addEventListener("DOMContentLoaded", () => {
-      let getCurrentPage = localStorage.getItem('currentPage');
-      cabinateFunction(getCurrentPage);
-    });
-    
-    let getCurrentUser = localStorage.getItem('currentUser');
-    if (getCurrentUser !== null) {
-      let parsedUser = JSON.parse(getCurrentUser);
-      userFirstname.textContent = parsedUser.firstName;
-      userLastname.textContent = parsedUser.lastName;
-    }
-   } catch (err: any) {
-      console.error(err.message);
    }
-      
-      // try {
-         //    mainService.registerCard(card1, card2, card3);
-         
-         
-         //    mainService.transaction("8600000100020003", "8600000100020005", 10000);
-         //    mainService.transaction("8600000100020005", "8600000100020003", 100);
-         //    mainService.transaction("8600000100020004", "8600000100020003", 5000);
-         //    console.log("Cards", mainService.getCardList());
-         //    console.log("History: ", mainService.getTransactionHistory());
-         
-// } catch (error) {
-//    // console.error(error.message);
-// }
+});
 
+
+
+loginForm.addEventListener("submit", (e) => {
+   e.preventDefault();
+   const { value: numberValue } = loginNumber;
+   const { value: passwordValue } = loginPassword;
+   let currentUser = mainService.login(parseInt(numberValue), passwordValue);
+   if (currentUser) {
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+      switchPage(true);
+      cabinate();
+   }
+});
+
+function cabinate() {
+
+   try {
+      let getCurrentUser = JSON.parse(localStorage.getItem("currentUser")!);
+      userFirstname.textContent = getCurrentUser.firstName;
+      userLastname.textContent = getCurrentUser.lastName;
+      userNumber.textContent = getCurrentUser.phoneNumber;
+      userPassword.textContent = getCurrentUser.password;
+      userCard.textContent = mainService.getCardByUserId(getCurrentUser.getId()).join(", ");
+      console.log("Users list: ", JSON.parse(localStorage.getItem("users")!));
+   } catch (error: any) {
+      console.log(error.message);
+   }
+}
+window.addEventListener('DOMContentLoaded', () => {
+   switchPage(JSON.parse(localStorage.getItem("cabinate")!));
+   cabinate();
+})
+
+
+// console.log("Last name: ", signLastname.value);
+// console.log("Last name: ", signLastname.value);
+// console.log("Phone number: ", signNumber.value);
+// console.log("Password: ", signPassword.value);

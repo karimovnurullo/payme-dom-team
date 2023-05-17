@@ -12,7 +12,4 @@ export class User {
     getId() {
         return this.id;
     }
-    getNumber() {
-        return this.phoneNumber;
-    }
 }

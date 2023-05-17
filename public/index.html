@@ -13,31 +13,52 @@
 <body>
    <div class="container">
       <div class="alert-element"></div>
-      <div class="enter-page">
+      <div class="login-page">
          <form class="login-form form">
             <div class="mode"><i class="uil uil-moon mode-icon"></i></div>
-            <h2 class="form-title">Sign in</h2>
-            <input type="text" class="login-number" placeholder="Phone number" autofocus>
+            <h2 class="form-title">Login</h2>
+            <input type="number" class="login-number" placeholder="Phone number" autofocus>
             <input type="password" class="login-password" placeholder="Password">
-            <button class="btn">Login</button>
+            <button class="btn">Enter</button>
             <p class="login-text form-text">Not registered? <span class="form-text-bold create-btn">Sign up</span></p>
          </form>
-         <form class="sign-form form">
+         <form class="sign-form form hide">
             <div class="mode"><i class="uil uil-moon mode-icon"></i></div>
-            <h2 class="form-title">Sign up</h2>
+            <h2 class="form-title">Sign Up</h2>
             <input type="text" class="sign-firsname" placeholder="First name" autofocus>
             <input type="text" class="sign-lastname" placeholder="Last name">
-            <input type="text" class="sign-number" placeholder="Phone number">
+            <input type="number" class="sign-number" placeholder="Phone number">
             <input type="password" class="sign-password" placeholder="Create password">
-            <button class="sign-btn btn">Sign up</button>
+            <button class="sign-btn btn">Register</button>
             <p class="sign-text form-text">Already registered?<span class="form-text-bold login-btn">Sign in</span></p>
          </form>
       </div>
-      <div class="cabinet">
+      <div class="cabinet hide">
          <h1>Welcome your cabinet</h1>
          <button class="logout-btn">Logout</button>
-         <div class="user-firstname"></div>
-         <div class="user-lastname"></div>
+         <div class="user-information">
+            <div class="item">
+               <span>User name</span>
+               <span class="user-firstname"></span>
+            </div>
+            <div class="item">
+               <span>User surname</span>
+               <span class="user-lastname"></span>
+            </div>
+            <div class="item">
+               <span>User number</span>
+               <span class="user-number"></span>
+            </div>
+            <div class="item">
+               <span>User password</span>
+               <span class="user-password"></span>
+            </div>
+            <div class="item">
+               <span>User card</span>
+               <span class="user-card"></span>
+            </div>
+         </div>
+
       </div>
    </div>
    
