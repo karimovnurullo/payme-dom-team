@@ -3,8 +3,6 @@ import { User } from "./entities/user/user.js";
 import { MainService } from "./services/main-service.js";
 import { alertFunction } from "./alert.js";
 import { BANK_TYPE, CARDTYPE } from "./entities/type/type.js";
-// import { CARD_TYPE } from "./entities/type/type";
-// function init() {
 const container = document.querySelector('.container');
 const loginPage = document.querySelector('.login-page');
 const cabinetPage = document.querySelector('.cabinet');
@@ -109,15 +107,15 @@ cardForm.addEventListener('submit', (e) => {
     else if (isNaN(expiryValueAsInt)) {
         createPlaceholder(cardExpiry, "Enter number", "00/00");
     }
-    let getCurrentUser = JSON.parse(localStorage.getItem("currentUser"));
     let cardTypeValue = cardType.value;
     if (!numberValue || !expiryValue || !balanceValue || (cardBankName && cardBankName.selectedIndex == 0) || (cardType && cardType.selectedIndex == 0)) {
         alertFunction("Please enter all information", false);
     }
     else {
-        console.log("currentUser", getCurrentUser);
-        mainService.registerCard(new Card(numberValue, expiryValue, cardTypeValue, parseInt(balanceValue), 2, cardBankName.value));
-        console.log(mainService.getCardList());
+        let getCurrentUser = JSON.parse(localStorage.getItem("currentUser"));
+        let user = Object.setPrototypeOf(getCurrentUser, User.prototype);
+        console.log("currentUser", user);
+        mainService.registerCard(new Card(numberValue, expiryValue, cardTypeValue, parseInt(balanceValue), user.getId(), cardBankName.value));
         cabinate();
         console.log("Card number: " + numberValue);
         console.log("Expiry number: " + expiryValue);
@@ -176,13 +174,6 @@ logoutBtn.addEventListener('click', () => {
     localStorage.setItem("currentUser", "");
 });
 const mainService = new MainService();
-// const user1 = new User("Nurullo", "Karimov", "+998905640618", "root123");
-// const user2 = new User("Amirxon", "Abralov", "+99890444222", "12221ss");
-// mainService.register(user1, user2);
-// const card1 = new Card("8600000100020003", "12/25", "HUMO", 10000, user1.getId(), "TBC Bank");
-// const card2 = new Card("8600000100020004", "12/25", "HUMO", 20000, user1.getId(), "NBU Bank");
-// const card3 = new Card("8600000100020005", "12/25", "HUMO", 10000, user1.getId(), "TBC Bank");
-// mainService.registerCard(card1, card2, card3);
 registerForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const firstNameValue = registerFirsname.value.trim();
@@ -217,30 +208,43 @@ loginForm.addEventListener("submit", (e) => {
     let currentUser = mainService.login(parseInt(numberValue), passwordValue);
     if (currentUser) {
         localStorage.setItem("currentUser", JSON.stringify(currentUser));
-        switchPage(true);
         cabinate();
+        switchPage(true);
     }
 });
 function cabinate() {
     try {
         let getCurrentUser = JSON.parse(localStorage.getItem("currentUser"));
-        userFirstname.textContent = getCurrentUser.firstName;
-        userLastname.textContent = getCurrentUser.lastName;
-        userNumber.textContent = getCurrentUser.phoneNumber;
-        userPassword.textContent = getCurrentUser.password;
-        let card = mainService.getCardByUserId(getCurrentUser.getId());
-        userCard.textContent = card.number;
-        console.log("Users list: ", JSON.parse(localStorage.getItem("users")));
+        let user = Object.setPrototypeOf(getCurrentUser, User.prototype);
+        userFirstname.textContent = user.firstName;
+        userLastname.textContent = user.lastName;
+        userNumber.textContent = user.phoneNumber.toString();
+        userPassword.textContent = user.password;
+        let userCardsList = JSON.parse(localStorage.getItem('userCardsList'));
+        userCardsList = mainService.getCardByUserId(user.getId());
+        localStorage.setItem("userCardsList", JSON.stringify(userCardsList));
+        let showCardsBtn = document.querySelector('.show-cards');
+        if (userCardsList) {
+            userCardsList.map(card => {
+                userCard.innerHTML +=
+                    `<div class="${card.type === "HUMO" ? "humo" : "uzcard"}">
+           <div class="plastik-bank-name">${card.bankName}</div>
+           <div class="money"><span class="plastik-money-number">${card.balance}</span><span>uzs</span></div>
+           <div class="plastik-card-number">${card.number}</div>
+           <div class="plastik-card-date">${card.expiry}</div>
+           <div class="user-name"><span class="plastik-first-name">${user.firstName}</span><span class="plastik-last-name">${user.lastName}</span></div>
+           <div class="plastik-card-type">${card.type}</div>
+       </div>`;
+            });
+        }
+        // showCardsBtn.addEventListener('click', () => {
+        // });
     }
     catch (error) {
-        console.log(error.message);
+        console.error(error.message);
     }
 }
 window.addEventListener('DOMContentLoaded', () => {
     switchPage(JSON.parse(localStorage.getItem("cabinate")));
     cabinate();
 });
-// console.log("Last name: ", signLastname.value);
-// console.log("Last name: ", signLastname.value);
-// console.log("Phone number: ", signNumber.value);
-// console.log("Password: ", signPassword.value);

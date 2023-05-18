@@ -1,6 +1,7 @@
 import { CARD_TYPE } from "../type/type";
 export class Card {
    private id: number;
+   private isBlocked: boolean = false;
 
    constructor(public number: string, public expiry: string, public type: CARD_TYPE, public balance: number, public ownerId: number, public bankName: string) {
    };
@@ -11,7 +12,6 @@ export class Card {
    getOwnerId() {
       return this.ownerId;
    }
-   private isBlocked: boolean = false;
 
 
    setBlock(block: boolean) {

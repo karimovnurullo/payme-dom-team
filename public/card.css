@@ -1,0 +1,65 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container{
+    padding: 50px;
+    display: flex;
+    gap: 30px;
+}
+
+.uzcard, .humo{
+    position: relative;
+    width: 410px;
+    height: 260px;
+    background-color: black;
+    color: white;
+    font-family: sans-serif;
+    letter-spacing: 2.5px;
+    border-radius: 20px;
+    border: none;
+    padding: 24px ;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    user-select: none;
+}
+
+.humo{
+    background-color: rgb(6, 6, 44);
+}
+
+.plastik-bank-name{
+    font-size: 18px;
+    margin-left: auto;
+    margin-bottom: 20px;
+}
+.plastik-money-number{
+    font-size: 35px;
+    color: red;
+    font-weight: bold;
+    margin-right: 12px;
+}
+
+.plastik-card-number{
+    font-size: 22px;
+    letter-spacing: 5px;
+    text-align: center;
+}
+
+.plastik-card-date{
+    font-size: 14px;
+    text-align: center;
+    margin-top: -15px;
+} 
+.user-name{
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    gap: 20px;
+}
+.plastik-card-type{
+    position: absolute;
+}

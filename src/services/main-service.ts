@@ -34,16 +34,33 @@ export class MainService {
       return this.cardRepository.getList();
    }
 
+   // getCardByUserId(userId: number): Card[] {
+   //    let getCards = JSON.parse(localStorage.getItem("cards")!) as Card[];
+   //    let cards = Object.setPrototypeOf(getCards, Card.prototype) as Card[];
+
+   //    let userCards: Card[] = [];
+   //    for (const card of cards) {
+   //       const ownerId: number = card.getOwnerId();
+   //       if (ownerId === userId) {
+   //          userCards.push(card);
+   //       }
+   //    }
+   //    return userCards;
+   // }
+
    getCardByUserId(userId: number): Card[] {
-      let userCards: Card[] = [];
-      for (const card of this.cardRepository.getList()) {
-         const ownerId: number = card.getOwnerId();
-         if (ownerId === userId) {
-            userCards.push(card);
-         }
+   const getCards = JSON.parse(localStorage.getItem("cards")!) as Card[];
+   const cards = getCards.map(cardData => Object.setPrototypeOf(cardData, Card.prototype))
+
+   const userCards: Card[] = [];
+   for (const card of cards) {
+      if (card.getOwnerId() === userId) {
+         userCards.push(card);
       }
-      return userCards;
    }
+   return userCards;
+}
+
 
    transaction(fromCard: string, toCard: string, money: number) {
       let fromCardExists = false;

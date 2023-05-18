@@ -1,3 +1,4 @@
+import { Card } from "../entities/card/card.js";
 import { CardRepository } from "../repository/card/card-repository.js";
 import { UserRepository } from "../repository/user/user-repository.js";
 import { alertFunction } from "../alert.js";
@@ -27,11 +28,24 @@ export class MainService {
     getCardList() {
         return this.cardRepository.getList();
     }
+    // getCardByUserId(userId: number): Card[] {
+    //    let getCards = JSON.parse(localStorage.getItem("cards")!) as Card[];
+    //    let cards = Object.setPrototypeOf(getCards, Card.prototype) as Card[];
+    //    let userCards: Card[] = [];
+    //    for (const card of cards) {
+    //       const ownerId: number = card.getOwnerId();
+    //       if (ownerId === userId) {
+    //          userCards.push(card);
+    //       }
+    //    }
+    //    return userCards;
+    // }
     getCardByUserId(userId) {
-        let userCards = [];
-        for (const card of this.cardRepository.getList()) {
-            const ownerId = card.getOwnerId();
-            if (ownerId === userId) {
+        const getCards = JSON.parse(localStorage.getItem("cards"));
+        const cards = getCards.map(cardData => Object.setPrototypeOf(cardData, Card.prototype));
+        const userCards = [];
+        for (const card of cards) {
+            if (card.getOwnerId() === userId) {
                 userCards.push(card);
             }
         }
